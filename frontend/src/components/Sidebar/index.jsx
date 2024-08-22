@@ -62,7 +62,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       {/* Sidebar Header */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-          <img src={Logo} alt="Logo" />
+          <h1 className="text-4xl	 font-semibold text-white"> Admin Panel</h1>
+          <hr className="mt-1" />
         </NavLink>
         <button
           ref={trigger}
@@ -93,7 +94,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
       {/* Sidebar Menu */}
       <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-        <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
+        <nav className="mt-2 py-2 px-4 lg:mt-4 lg:px-6">
           {/* Menu Group */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
