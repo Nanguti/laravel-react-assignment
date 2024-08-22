@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axiosClient from "../utils/axios";
-import AddMenu from "../components/AddMenu";
-import EditMenu from "../components/EditMenu"; // Import your EditMenu component
+import AddMenu from "./AddMenu";
+import EditMenu from "./EditMenu"; // Import your EditMenu component
 
-export const Menu = () => {
+const Menu = () => {
   const [menus, setMenus] = useState([]);
   const [editingMenu, setEditingMenu] = useState(null); // Track the menu item being edited
   const [showAddMenu, setShowAddMenu] = useState(true); // Track whether to show AddMenu or EditMenu
@@ -94,3 +94,5 @@ export const Menu = () => {
     </>
   );
 };
+
+export default Menu;

@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import Menu from "../components/Menu";
 
 const Dashboard = () => {
   useEffect(() => {
     document.title = "Dashboard";
   }, []);
 
-  return <div>Dashboard</div>;
+  return <Menu />;
 };
 
 export default Dashboard;

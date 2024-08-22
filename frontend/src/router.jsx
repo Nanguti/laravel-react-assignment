@@ -5,7 +5,7 @@ import NotFound from "./views/NotFound";
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import Profile from "./views/Profile";
-import { Menu } from "./views/Menu";
+// import { Menu } from "./views/Menu";
 import Signup from "./views/SignUp";
 
 const router = createBrowserRouter([
@@ -21,10 +21,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
-      {
-        path: "/menu",
-        element: <Menu />,
-      },
+      // {
+      //   path: "/menu",
+      //   element: <Menu />,
+      // },
     ],
   },
 
