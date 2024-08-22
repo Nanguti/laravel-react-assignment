@@ -6,17 +6,14 @@ const AddMenu = ({ menuItems, onMenuAdded }) => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState(null);
 
-  // Function to handle selection change
   const handleSelectChange = (event) => {
     setSelectedMenu(event.target.value);
   };
 
-  // Function to handle input change
   const handleInputChange = (event) => {
     setTitle(event.target.value);
   };
 
-  // Recursive function to render menu items in a flat structure
   const flattenMenuItems = (items) => {
     let flatItems = [];
     items.forEach((item) => {
@@ -30,7 +27,6 @@ const AddMenu = ({ menuItems, onMenuAdded }) => {
 
   const flattenedMenuItems = flattenMenuItems(menuItems);
 
-  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -42,9 +38,9 @@ const AddMenu = ({ menuItems, onMenuAdded }) => {
     try {
       await axiosClient.post("/menus", payload);
       setMessage("Menu item added successfully!");
-      setTitle(""); // Clear the title input
-      setSelectedMenu(""); // Reset the select input
-      onMenuAdded(); // Call the callback to update the menu list
+      setTitle("");
+      setSelectedMenu("");
+      onMenuAdded();
     } catch (err) {
       const response = err.response;
       if (response && response.status === 422) {

@@ -12,7 +12,7 @@ const EditMenu = ({ menu, onEditComplete }) => {
     const fetchParentMenus = async () => {
       try {
         const response = await axiosClient.get("/menus"); // Adjust endpoint if needed
-        setParentMenus(response.data);
+        setParentMenus(flattenMenuItems(response.data));
       } catch (error) {
         console.error("Error fetching parent menus:", error);
       }
@@ -23,29 +23,36 @@ const EditMenu = ({ menu, onEditComplete }) => {
     setParentId(menu?.parentId || "");
   }, [menu]);
 
-  // Function to handle input change for title
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
 
-  // Function to handle selection change for parent
   const handleParentChange = (event) => {
     setParentId(event.target.value);
   };
 
-  // Function to handle form submission
+  const flattenMenuItems = (items) => {
+    let flatItems = [];
+    items.forEach((item) => {
+      flatItems.push(item);
+      if (item.descendants && item.descendants.length > 0) {
+        flatItems = flatItems.concat(flattenMenuItems(item.descendants));
+      }
+    });
+    return flatItems;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const payload = {
       title: title,
-      parentId: parentId || null, // Include parentId in the payload, or set to null if not selected
+      parent_id: parentId || null,
     };
 
     try {
       await axiosClient.put(`/menus/${menu.id}`, payload);
       setMessage("Menu item updated successfully!");
-      onEditComplete(); // Notify parent component that editing is done
+      onEditComplete();
     } catch (err) {
       const response = err.response;
       if (response && response.status === 422) {
@@ -56,7 +63,6 @@ const EditMenu = ({ menu, onEditComplete }) => {
     }
   };
 
-  // Function to handle delete action
   const handleDelete = async () => {
     try {
       await axiosClient.delete(`/menus/${menu.id}`);
@@ -75,24 +81,6 @@ const EditMenu = ({ menu, onEditComplete }) => {
   return (
     <>
       <div className="flex flex-col gap-9">
-        {/* Main Menu Display */}
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-          <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-            <h3 className="font-medium text-black dark:text-white">
-              Main Menu
-            </h3>
-          </div>
-          <div className="p-6.5">
-            <ul>
-              {parentMenus.map((parent) => (
-                <li key={parent.id} className="mb-2">
-                  {parent.title}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
         {/* Edit Menu Form */}
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
@@ -119,7 +107,7 @@ const EditMenu = ({ menu, onEditComplete }) => {
               </div>
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
-                  Parent
+                  Parent / Root Menu
                 </label>
                 <select
                   value={parentId}
