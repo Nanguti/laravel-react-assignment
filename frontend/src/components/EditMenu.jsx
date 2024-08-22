@@ -56,9 +56,44 @@ const EditMenu = ({ menu, onEditComplete }) => {
     }
   };
 
+  // Function to handle delete action
+  const handleDelete = async () => {
+    try {
+      await axiosClient.delete(`/menus/${menu.id}`);
+      setMessage("Menu item deleted successfully!");
+      onEditComplete(); // Notify parent component that deletion is done
+    } catch (err) {
+      const response = err.response;
+      if (response && response.status === 422) {
+        setMessage(response.data.message);
+      } else {
+        setMessage("An error occurred while deleting the menu item.");
+      }
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col gap-9">
+        {/* Main Menu Display */}
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+          <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+            <h3 className="font-medium text-black dark:text-white">
+              Main Menu
+            </h3>
+          </div>
+          <div className="p-6.5">
+            <ul>
+              {parentMenus.map((parent) => (
+                <li key={parent.id} className="mb-2">
+                  {parent.title}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Edit Menu Form */}
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
             <h3 className="font-medium text-black dark:text-white">
@@ -102,13 +137,23 @@ const EditMenu = ({ menu, onEditComplete }) => {
                   ))}
                 </select>
               </div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded bg-primary p-3 
-              font-medium text-gray hover:bg-opacity-90"
-              >
-                Update Menu Item
-              </button>
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="flex-1 justify-center rounded bg-primary p-3 
+                  font-medium text-white hover:bg-opacity-90"
+                >
+                  Update Menu Item
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="flex-1 justify-center rounded bg-red-600 p-3 
+                  font-medium text-white hover:bg-red-700"
+                >
+                  Delete Menu Item
+                </button>
+              </div>
             </div>
           </form>
           {message && (
