@@ -7,13 +7,17 @@ const Menu = () => {
   const [menus, setMenus] = useState([]);
   const [editingMenu, setEditingMenu] = useState(null);
   const [showAddMenu, setShowAddMenu] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchMenus = async () => {
+      setLoading(true);
       try {
         const response = await axiosClient.get("/menus");
+        setLoading(false);
         setMenus(response.data);
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching menus:", error);
       }
     };
@@ -64,15 +68,18 @@ const Menu = () => {
     <>
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
         <div className="flex flex-col gap-9">
-          <details
-            className="rounded-md border border-stroke bg-white shadow-default 
-          dark:border-strokedark dark:bg-boxdark"
-          >
-            <summary className="bg-gray-200 p-4 cursor-pointer shadow-sm mb-1 mr-2 ">
-              <span className="font-semibold">Main Menu</span>
-            </summary>
-            <ul className="ml-8 space-y-4">{renderMenuItems(menus)}</ul>
-          </details>
+          {loading && <p>Loading...</p>}
+          {!loading && (
+            <details
+              className="rounded-md border border-stroke bg-white shadow-default 
+              dark:border-strokedark dark:bg-boxdark"
+            >
+              <summary className="bg-gray-200 p-4 cursor-pointer shadow-sm mb-1 mr-2 ">
+                <span className="font-semibold">Main Menu</span>
+              </summary>
+              <ul className="ml-8 space-y-4">{renderMenuItems(menus)}</ul>
+            </details>
+          )}
         </div>
         <div className="flex flex-col gap-9">
           {showAddMenu ? (
@@ -83,6 +90,15 @@ const Menu = () => {
               onEditComplete={() => setShowAddMenu(true)}
               onMenuEdit={updateMenus}
             />
+          )}
+
+          {!showAddMenu && (
+            <button
+              onClick={() => setShowAddMenu(true)}
+              className="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark"
+            >
+              Add Menu Item
+            </button>
           )}
         </div>
       </div>
