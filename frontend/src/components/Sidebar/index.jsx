@@ -30,7 +30,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     return () => document.removeEventListener("click", clickHandler);
   }, [sidebarOpen, setSidebarOpen]);
 
-  // Close if the esc key is pressed
   useEffect(() => {
     const keyHandler = (event) => {
       if (!sidebarOpen || event.keyCode !== 27) return;
@@ -40,7 +39,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     return () => document.removeEventListener("keydown", keyHandler);
   }, [sidebarOpen, setSidebarOpen]);
 
-  // Store sidebar expanded state
   useEffect(() => {
     localStorage.setItem("sidebar-expanded", sidebarExpanded.toString());
     if (sidebarExpanded) {
@@ -97,9 +95,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         <nav className="mt-2 py-2 px-4 lg:mt-4 lg:px-6">
           {/* Menu Group */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              MENU
-            </h3>
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* Menu Item Dashboard */}
               <SidebarLinkGroup
@@ -155,7 +150,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                           16.2001 1.5751 16.9876 2.53135 16.9876H6.10322C7.05947 16.9876 7.84697 16.2001 7.84697 
                           15.2438V11.7001C7.8751 10.7157 7.0876 9.92822 6.10322 9.92822ZM6.60947 15.2438C6.60947 15.5251 
                           6.38447 15.7501 6.10322 15.7501H2.53135C2.2501 15.7501 2.0251 15.5251 2.0251 15.2438V11.672C2.0251
-                           11.3907 2.2501 11.1657 2.53135 11.1657H6.10322C6.38447 11.1657 6.60947 11.3907 6.60947 11.672V15.2438Z"
+                           11.3907 2.2501 11.1657 2.53135 11.1657H6.10322C6.38447 11.1657 6.60947 11.3907
+                            6.60947 11.672V15.2438Z"
                           fill=""
                         />
                         <path
@@ -170,9 +166,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </svg>
                       <span>Dashboard</span>
                       <svg
-                        className={`ml-auto h-3.5 w-3.5 flex-shrink-0 text-bodydark3 transition-transform duration-300 ease-in-out ${
-                          open ? "rotate-180" : ""
-                        }`}
+                        className={`ml-auto h-3.5 w-3.5 flex-shrink-0 text-bodydark3 transition-transform 
+                          duration-300 ease-in-out ${open ? "rotate-180" : ""}`}
                         width="16"
                         height="16"
                         viewBox="0 0 16 16"

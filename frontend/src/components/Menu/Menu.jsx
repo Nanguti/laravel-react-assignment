@@ -81,6 +81,7 @@ const Menu = () => {
             <EditMenu
               menu={editingMenu}
               onEditComplete={() => setShowAddMenu(true)}
+              onMenuEdit={updateMenus}
             />
           )}
         </div>

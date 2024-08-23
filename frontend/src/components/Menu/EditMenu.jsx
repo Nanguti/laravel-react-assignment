@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../../utils/axios.js";
 
-const EditMenu = ({ menu, onEditComplete }) => {
+const EditMenu = ({ menu, onEditComplete, onMenuEdit }) => {
   const [title, setTitle] = useState(menu?.title || "");
   const [parentId, setParentId] = useState(menu?.parentId || "");
   const [parentMenus, setParentMenus] = useState([]);
@@ -51,6 +51,7 @@ const EditMenu = ({ menu, onEditComplete }) => {
     try {
       await axiosClient.put(`/menus/${menu.id}`, payload);
       setMessage("Menu item updated successfully!");
+      onMenuEdit();
       onEditComplete();
     } catch (err) {
       const response = err.response;
@@ -66,7 +67,8 @@ const EditMenu = ({ menu, onEditComplete }) => {
     try {
       await axiosClient.delete(`/menus/${menu.id}`);
       setMessage("Menu item deleted successfully!");
-      onEditComplete(); // Notify parent component that deletion is done
+      onMenuEdit();
+      onEditComplete();
     } catch (err) {
       const response = err.response;
       if (response && response.status === 422) {
