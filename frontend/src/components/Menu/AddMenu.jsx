@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosClient from "../utils/axios.js"; // Import your axios client configuration
+import axiosClient from "../../utils/axios.js";
 
 const AddMenu = ({ menuItems, onMenuAdded }) => {
   const [selectedMenu, setSelectedMenu] = useState("");

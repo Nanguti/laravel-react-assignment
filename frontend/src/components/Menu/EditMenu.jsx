@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axiosClient from "../utils/axios.js"; // Import your axios client configuration
+import axiosClient from "../../utils/axios.js";
 
 const EditMenu = ({ menu, onEditComplete }) => {
   const [title, setTitle] = useState(menu?.title || "");
-  const [parentId, setParentId] = useState(menu?.parentId || ""); // Track the parent ID
-  const [parentMenus, setParentMenus] = useState([]); // Store parent menus
+  const [parentId, setParentId] = useState(menu?.parentId || "");
+  const [parentMenus, setParentMenus] = useState([]);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    // Fetch parent menu items when the component mounts
     const fetchParentMenus = async () => {
       try {
-        const response = await axiosClient.get("/menus"); // Adjust endpoint if needed
+        const response = await axiosClient.get("/menus");
         setParentMenus(flattenMenuItems(response.data));
       } catch (error) {
         console.error("Error fetching parent menus:", error);

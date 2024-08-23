@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
-import axiosClient from "../utils/axios";
+import axiosClient from "../../utils/axios";
 import AddMenu from "./AddMenu";
-import EditMenu from "./EditMenu"; // Import your EditMenu component
+import EditMenu from "./EditMenu";
 
 const Menu = () => {
   const [menus, setMenus] = useState([]);
-  const [editingMenu, setEditingMenu] = useState(null); // Track the menu item being edited
-  const [showAddMenu, setShowAddMenu] = useState(true); // Track whether to show AddMenu or EditMenu
+  const [editingMenu, setEditingMenu] = useState(null);
+  const [showAddMenu, setShowAddMenu] = useState(true);
 
   useEffect(() => {
-    // Fetch menu items from the API
     const fetchMenus = async () => {
       try {
         const response = await axiosClient.get("/menus");
@@ -22,7 +21,6 @@ const Menu = () => {
     fetchMenus();
   }, []);
 
-  // Function to update the menu list
   const updateMenus = async () => {
     try {
       const response = await axiosClient.get("/menus");
@@ -32,13 +30,11 @@ const Menu = () => {
     }
   };
 
-  // Function to handle menu item click
   const handleMenuClick = (menu) => {
-    setEditingMenu(menu); // Set the menu item to be edited
-    setShowAddMenu(false); // Show EditMenu component
+    setEditingMenu(menu);
+    setShowAddMenu(false);
   };
 
-  // Recursive function to render menu items and their descendants
   const renderMenuItems = (menuItems) => {
     return menuItems.map((item) => (
       <li key={item.id}>
@@ -54,7 +50,7 @@ const Menu = () => {
         ) : (
           <a
             href="#"
-            onClick={() => handleMenuClick(item)} // Handle click event
+            onClick={() => handleMenuClick(item)}
             className="block bg-gray-100  m-1 p-3 cursor-pointer shadow"
           >
             <span className="font-small">{item.title}</span>
